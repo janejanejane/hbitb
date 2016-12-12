@@ -4,13 +4,14 @@ import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 import Dimension from './Dimension';
 
 
 const reducers = {
   // ... your other reducers here ...
+  routing: routerReducer,
   form: formReducer,     // <---- Mounted at 'form'
 };
 const reducer = combineReducers( reducers );

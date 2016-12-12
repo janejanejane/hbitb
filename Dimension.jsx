@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 
-let Dimension = () => {
-  console.log( 'this.props:', this.props );
+let Dimension = ( props ) => {
+  console.log( 'this.props:', props );
   return (
     <div>
       <form>
@@ -37,7 +38,7 @@ let Dimension = () => {
           </div>
         </div>
       </form>
-      <div>{this.props}</div>
+      <div>{props.values}</div>
     </div>
   );
 };
@@ -45,5 +46,18 @@ let Dimension = () => {
 Dimension = reduxForm( {
   form: 'dimension', // a unique name for this form
 } )( Dimension );
+
+const selector = formValueSelector( 'dimension' );
+Dimension = connect(
+  ( state ) => {
+    const { width, height, length } = selector( state, 'width', 'height', 'length' );
+    return {
+      values: `width: ${width}, height: ${height}, length: ${length}`,
+    };
+  } )( Dimension );
+
+Dimension.propTypes = {
+  values: PropTypes.string,
+};
 
 export default Dimension;
