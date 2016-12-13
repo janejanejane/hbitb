@@ -8,9 +8,10 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 import Dimension from './Dimension';
 
+import { dimension } from './reducer';
 
 const reducers = {
-  // ... your other reducers here ...
+  dimension,
   routing: routerReducer,
   form: formReducer,     // <---- Mounted at 'form'
 };
