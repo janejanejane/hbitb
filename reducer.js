@@ -5,6 +5,7 @@ const initialState = {
 };
 
 export function dimension( state = initialState, action ) {
+  console.log( 'state:', state );
   switch ( action.type ) {
     case SUBMIT_VOLUME:
       return action.volume;

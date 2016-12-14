@@ -4,9 +4,11 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 
 let Dimension = ( props ) => {
   console.log( 'this.props:', props );
+  const { handleSubmit, values } = props;
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="width">W</label>
           <div>
@@ -38,7 +40,7 @@ let Dimension = ( props ) => {
           </div>
         </div>
       </form>
-      <div>{props.values}</div>
+      <div>{values}</div>
     </div>
   );
 };
@@ -51,12 +53,16 @@ const selector = formValueSelector( 'dimension' );
 Dimension = connect(
   ( state ) => {
     const { width, height, length } = selector( state, 'width', 'height', 'length' );
+
+    console.log( width, height, length );
+
     return {
       values: `width: ${width}, height: ${height}, length: ${length}`,
     };
   } )( Dimension );
 
 Dimension.propTypes = {
+  handleSubmit: PropTypes.func,
   values: PropTypes.string,
 };
 
