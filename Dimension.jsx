@@ -2,55 +2,70 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
-let Dimension = ( props ) => {
-  console.log( 'this.props:', props );
-  const { handleSubmit, values } = props;
+class Dimension extends Component {
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="width">W</label>
+  volumeSubmit() {
+    console.log( 'inside submit!!!' );
+  }
+
+
+  render() {
+    console.log( 'this.props:', this.props );
+    const { handleSubmit, pristine, submitting, values } = this.props;
+
+    return (
+      <div>
+        <form onSubmit={handleSubmit( this.volumeSubmit )}>
           <div>
-            <Field
-              name="width"
-              component="input"
-              type="number"
-            />
+            <label htmlFor="width">W</label>
+            <div>
+              <Field
+                name="width"
+                component="input"
+                type="number"
+              />
+            </div>
           </div>
-        </div>
-        <div>
-          <label htmlFor="height">H</label>
           <div>
-            <Field
-              name="height"
-              component="input"
-              type="number"
-            />
+            <label htmlFor="height">H</label>
+            <div>
+              <Field
+                name="height"
+                component="input"
+                type="number"
+              />
+            </div>
           </div>
-        </div>
-        <div>
-          <label htmlFor="length">L</label>
           <div>
-            <Field
-              name="length"
-              component="input"
-              type="number"
-            />
+            <label htmlFor="length">L</label>
+            <div>
+              <Field
+                name="length"
+                component="input"
+                type="number"
+              />
+            </div>
           </div>
-        </div>
-      </form>
-      <div>{values}</div>
-    </div>
-  );
+          <div>
+            <button disabled={pristine || submitting}>Calculate</button>
+          </div>
+        </form>
+        <div>{values}</div>
+      </div>
+    );
+  }
+}
+
+Dimension.propTypes = {
+  handleSubmit: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  values: PropTypes.string,
 };
 
-Dimension = reduxForm( {
-  form: 'dimension', // a unique name for this form
-} )( Dimension );
 
 const selector = formValueSelector( 'dimension' );
-Dimension = connect(
+export default connect(
   ( state ) => {
     const { width, height, length } = selector( state, 'width', 'height', 'length' );
 
@@ -59,11 +74,8 @@ Dimension = connect(
     return {
       values: `width: ${width}, height: ${height}, length: ${length}`,
     };
-  } )( Dimension );
-
-Dimension.propTypes = {
-  handleSubmit: PropTypes.func,
-  values: PropTypes.string,
-};
-
-export default Dimension;
+  } )(
+    reduxForm( {
+      form: 'dimension', // a unique name for this form
+    } )( Dimension ),
+);
