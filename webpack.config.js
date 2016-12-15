@@ -7,7 +7,8 @@ module.exports = {
     'babel-polyfill',
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './index.js',
+    // './index.js',
+    './app.js',
   ],
   output: {
     path: path.join( __dirname, 'dist' ),
