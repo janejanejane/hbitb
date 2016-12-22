@@ -1,35 +1,22 @@
 import deepFreeze from 'deep-freeze';
 import expect from 'expect';
+import React from 'react';
+import { render } from 'react-dom';
 import { createStore } from 'redux';
+import BoxApp from './components/BoxApp';
+import { box } from './reducers';
 
-const box = ( state = {}, action ) => {
-  switch ( action.type ) {
-    case 'ADD_BOX':
-      return {
-        id: action.id,
-        length: action.length,
-        height: action.height,
-        width: action.width,
-        unit: action.unit,
-      };
-    default:
-      return state;
-  }
+const store = createStore( box );
+
+const renderBoxApp = () => {
+  render(
+    <BoxApp store={store} />,
+    document.getElementById( 'box-app' ),
+  );
 };
 
-const boxes = ( state = [], action ) => {
-  switch ( action.type ) {
-    case 'ADD_BOX':
-      return [
-        ...state,
-        box( undefined, action ),
-      ];
-    default:
-      return state;
-  }
-};
-
-const store = createStore( boxes );
+store.subscribe( renderBoxApp );
+renderBoxApp();
 
 /* eslint-disable no-console */
 console.log( 'Initial state:' );

@@ -10,7 +10,7 @@ module.exports = {
     // ],
     'box-app': [
       'babel-polyfill',
-      './box-app.js',
+      './box-app/index.js',
     ],
   },
   output: {

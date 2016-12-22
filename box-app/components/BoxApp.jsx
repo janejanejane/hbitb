@@ -1,8 +1,9 @@
 import React from 'react';
+import v4 from 'node-uuid';
 
-import { store, CALCULATE_VOLUME } from './app';
+import { ADD_BOX } from '../actions/index';
 
-const BoxApp = () => {
+const BoxApp = ( { store } ) => {
   let length = 0;
   let width = 0;
   let height = 0;
@@ -39,8 +40,11 @@ const BoxApp = () => {
       <button
         onClick={() => {
           store.dispatch( {
-            type: CALCULATE_VOLUME,
-            volume: length.value + width.value + height.value,
+            type: ADD_BOX,
+            id: v4(),
+            length: length.value,
+            height: height.value,
+            width: width.value,
           } );
 
           // reset input values
