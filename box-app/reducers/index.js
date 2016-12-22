@@ -1,6 +1,7 @@
-import ADD_BOX from '../actions';
+import { ADD_BOX } from '../actions';
 
 export const box = ( state = {}, action ) => {
+  console.log( 'inside here!!!', state, action );
   switch ( action.type ) {
     case ADD_BOX:
       return {
@@ -8,7 +9,7 @@ export const box = ( state = {}, action ) => {
         length: action.length,
         height: action.height,
         width: action.width,
-        unit: action.unit,
+        unit: action.unit || 'cm',
       };
     default:
       return state;
