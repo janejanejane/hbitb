@@ -1,18 +1,21 @@
-const webpack = require( 'webpack' );
-const path = require( 'path' );
+import webpack from 'webpack';
+import path from 'path';
 
 module.exports = {
   devtool: 'eval',
-  entry: [
-    'babel-polyfill',
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    // './index.js',
-    './app.js',
-  ],
+  entry: {
+    // 'app': [
+    //   'babel-polyfill',
+    //   './app.js',
+    // ],
+    'box-app': [
+      'babel-polyfill',
+      './box-app.js',
+    ],
+  },
   output: {
     path: path.join( __dirname, 'dist' ),
-    filename: 'bundle.js',
+    filename: '[name].js',
     publicPath: '/dist',
   },
   plugins: [
