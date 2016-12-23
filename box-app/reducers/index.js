@@ -1,4 +1,4 @@
-import { ADD_BOX } from '../actions';
+import { ADD_BOX, CALCULATE_VOLUME } from '../actions';
 
 export const box = ( state = {}, action ) => {
   console.log( 'inside here!!!', state, action );
@@ -10,6 +10,11 @@ export const box = ( state = {}, action ) => {
         height: action.height,
         width: action.width,
         unit: action.unit || 'cm',
+      };
+    case CALCULATE_VOLUME:
+      return {
+        ...state,
+        volume: action.volume,
       };
     default:
       return state;

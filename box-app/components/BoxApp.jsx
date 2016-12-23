@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import v4 from 'node-uuid';
 
-import { ADD_BOX } from '../actions/index';
+import { ADD_BOX, CALCULATE_VOLUME } from '../actions';
+import * as api from '../api';
 
 class BoxApp extends Component {
 
@@ -56,6 +57,15 @@ class BoxApp extends Component {
             }}
           />
         </div>
+        <div>
+          <label htmlFor="Unit">Unit:</label>
+          <select
+            id="unit"
+          >
+            <option id="cm">cm</option>
+            <option id="in">in</option>
+          </select>
+        </div>
         <br />
         <button
           onClick={() => {
@@ -65,6 +75,19 @@ class BoxApp extends Component {
               length: length.value,
               height: height.value,
               width: width.value,
+            } );
+
+            // calculate the volume and dispatch action
+            api.calculateVolume( {
+              length: length.value,
+              height: height.value,
+              width: width.value,
+            } ).then( ( response ) => {
+              console.log( response );
+              store.dispatch( {
+                type: CALCULATE_VOLUME,
+                volume: response,
+              } );
             } );
 
             // reset input values
@@ -81,6 +104,10 @@ class BoxApp extends Component {
           Width: {state.width}
           <br />
           Height: {state.height}
+        </div>
+        <br />
+        <div>
+          Volume: {state.volume}
         </div>
       </div>
     );

@@ -12,6 +12,9 @@ module.exports = {
       'babel-polyfill',
       './box-app/index.js',
     ],
+    'vendor': [
+      'three',
+    ],
   },
   output: {
     path: path.join( __dirname, 'dist' ),
@@ -19,13 +22,14 @@ module.exports = {
     publicPath: '/dist',
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin( 'vendor', 'vendor.bundle.js' ),
   ],
   module: {
     loaders: [{
       test: /\.jsx?$/,
       loaders: ['babel'],
       include: path.join( __dirname ),
+      exclude: /node_modules/,
     }],
   },
   resolve: {
