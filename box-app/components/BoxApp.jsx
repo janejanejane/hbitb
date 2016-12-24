@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import v4 from 'node-uuid';
 
+import ThreeRender from './ThreeRender';
+
 import { ADD_BOX, CALCULATE_VOLUME } from '../actions';
 import * as api from '../api';
 
@@ -109,6 +111,9 @@ class BoxApp extends Component {
         <div>
           Volume: {state.volume}
         </div>
+        <ThreeRender
+          geometry={store.getState()}
+        />
       </div>
     );
   }
