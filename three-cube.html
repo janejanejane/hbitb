@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>three.js simple cube</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        background: red;
+      }
+    </style>
+  </head>
+  <body>
+
+    <canvas id="app-canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
+    <script>
+      var renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById('app-canvas'),
+        antialias: true
+      });
+      renderer.setClearColor(0x00ff00);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // draw content to renderer by passing camera and scene
+
+      // PerspectiveCamera draws object smaller as they go far away
+      var camera = new THREE.PerspectiveCamera(
+        35, // field of view
+        window.innerWidth / window.innerHeight, // aspect ratio, size of window
+        0.1, // near clipping occurs
+        3000 // far clipping occurs
+      );
+      // camera.position.set(0, 0, 0); // default position, same as mesh
+
+      // container object of whole world where things get added into
+      var scene = new THREE.Scene();
+
+      // default light of the scene that covers the entire space
+      // AmbientLight( color, intensity );
+      var light = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(light);
+
+      // specific point of the scene
+      var pointLight = new THREE.PointLight(0xffffff, 0.5);
+      scene.add(pointLight);
+
+      // actual geometry that makes up the 3d object
+      // BoxGeometry( x side, y side, z side );
+      var geometry = new THREE.BoxGeometry(100, 100, 100);
+
+      // draws solid color to the side of the geometry
+      // var material = new THREE.MeshBasicMaterial(); // does not respond to light
+      // MeshLambertMaterial responds to light
+      var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+
+      var mesh = new THREE.Mesh(geometry, material);
+      // mesh.position.set(0, 0, 0) // default position, same as camera
+      mesh.position.set(0, 0, -1000);
+
+      scene.add(mesh);
+
+      // animate the cube to see all sides
+      requestAnimationFrame(render);
+      function render() {
+        // update position of the cube
+        mesh.rotation.x += 0.01;
+        mesh.rotation.y += 0.01;
+        // call everything
+        renderer.render(scene, camera);
+        requestAnimationFrame(render);
+      }
+
+    </script>
+  </body>
+</html>
