@@ -17,64 +17,95 @@
   <body>
 
     <canvas id="app-canvas"></canvas>
+    <div id="container"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
+    <script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
     <script>
-      var renderer = new THREE.WebGLRenderer({
-        canvas: document.getElementById('app-canvas'),
-        antialias: true
-      });
-      renderer.setClearColor(0x00ff00);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      var camera = null;
+      var controls = null;
+      var mesh = null;
+      var renderer = null;
+      var scene = null;
 
-      // draw content to renderer by passing camera and scene
+      init();
+      animate();
 
-      // PerspectiveCamera draws object smaller as they go far away
-      var camera = new THREE.PerspectiveCamera(
-        35, // field of view
-        window.innerWidth / window.innerHeight, // aspect ratio, size of window
-        0.1, // near clipping occurs
-        3000 // far clipping occurs
-      );
-      // camera.position.set(0, 0, 0); // default position, same as mesh
+      function init() {
 
-      // container object of whole world where things get added into
-      var scene = new THREE.Scene();
+          // var renderer = new THREE.WebGLRenderer({
+          //   canvas: document.getElementById('app-canvas'),
+          //   antialias: true
+          // });
+          renderer = new THREE.WebGLRenderer({
+            antialias: true
+          });
+          renderer.setClearColor(0x00ff00);
+          renderer.setPixelRatio(window.devicePixelRatio);
+          renderer.setSize(window.innerWidth, window.innerHeight);
 
-      // default light of the scene that covers the entire space
-      // AmbientLight( color, intensity );
-      var light = new THREE.AmbientLight(0xffffff, 0.5);
-      scene.add(light);
+          // draw content to renderer by passing camera and scene
 
-      // specific point of the scene
-      var pointLight = new THREE.PointLight(0xffffff, 0.5);
-      scene.add(pointLight);
+          // PerspectiveCamera draws object smaller as they go far away
+          camera = new THREE.PerspectiveCamera(
+            35, // field of view
+            window.innerWidth / window.innerHeight, // aspect ratio, size of window
+            0.1, // near clipping occurs
+            3000 // far clipping occurs
+          );
+          // camera.position.set(0, 0, 0); // default position, same as mesh
 
-      // actual geometry that makes up the 3d object
-      // BoxGeometry( x side, y side, z side );
-      var geometry = new THREE.BoxGeometry(100, 100, 100);
+          // container object of whole world where things get added into
+          scene = new THREE.Scene();
 
-      // draws solid color to the side of the geometry
-      // var material = new THREE.MeshBasicMaterial(); // does not respond to light
-      // MeshLambertMaterial responds to light
-      var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+          // default light of the scene that covers the entire space
+          // AmbientLight( color, intensity );
+          var light = new THREE.AmbientLight(0xffffff, 0.5);
+          scene.add(light);
 
-      var mesh = new THREE.Mesh(geometry, material);
-      // mesh.position.set(0, 0, 0) // default position, same as camera
-      mesh.position.set(0, 0, -1000);
+          // specific point of the scene
+          var pointLight = new THREE.PointLight(0xffffff, 0.5);
+          scene.add(pointLight);
 
-      scene.add(mesh);
+          // actual geometry that makes up the 3d object
+          // BoxGeometry( x side, y side, z side );
+          var geometry = new THREE.BoxGeometry(100, 100, 100);
+
+          // draws solid color to the side of the geometry
+          var material = new THREE.MeshBasicMaterial({color: 0x00ff00}); // does not respond to light
+          // MeshLambertMaterial responds to light
+          // var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+
+          mesh = new THREE.Mesh(geometry, material);
+          // mesh.position.set(0, 0, 0) // default position, same as camera
+          mesh.position.set(0, 0, -1000);
+
+          scene.add(mesh);
+
+          controls = new THREE.OrbitControls(camera, renderer.domElement);
+          controls.enableDamping = true;
+          controls.addEventListener('change', render);
+
+          var container = document.getElementById('container');
+          container.appendChild(renderer.domElement);
+      }
 
       // animate the cube to see all sides
-      requestAnimationFrame(render);
+      // requestAnimationFrame(render);
       function render() {
+        console.log( 'render called!' );
         // update position of the cube
-        mesh.rotation.x += 0.01;
-        mesh.rotation.y += 0.01;
+        // mesh.rotation.x += 0.01;
+        // mesh.rotation.y += 0.01;
         // call everything
         renderer.render(scene, camera);
-        requestAnimationFrame(render);
+        // requestAnimationFrame(render);
+      }
+
+      function animate() {
+        console.log( 'animate called!' );
+        requestAnimationFrame(animate);
+        controls.update();
       }
 
     </script>
