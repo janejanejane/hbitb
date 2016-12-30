@@ -11,6 +11,8 @@
 
       canvas {
         background: red;
+        display: block;
+        margin: auto;
       }
     </style>
   </head>
@@ -28,32 +30,36 @@
       var renderer = null;
       var scene = null;
 
+      const WIDTH = window.innerWidth / 2;
+      const HEIGHT = window.innerHeight / 2;
+
       init();
       animate();
 
       function init() {
 
-          // var renderer = new THREE.WebGLRenderer({
-          //   canvas: document.getElementById('app-canvas'),
-          //   antialias: true
-          // });
           renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('app-canvas'),
             antialias: true
           });
+          // renderer = new THREE.WebGLRenderer({
+          //   antialias: true
+          // });
           renderer.setClearColor(0x00ff00);
           renderer.setPixelRatio(window.devicePixelRatio);
-          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setSize(WIDTH, HEIGHT);
 
           // draw content to renderer by passing camera and scene
 
           // PerspectiveCamera draws object smaller as they go far away
           camera = new THREE.PerspectiveCamera(
             35, // field of view
-            window.innerWidth / window.innerHeight, // aspect ratio, size of window
+            WIDTH / HEIGHT, // aspect ratio, size of window
             0.1, // near clipping occurs
             3000 // far clipping occurs
           );
           // camera.position.set(0, 0, 0); // default position, same as mesh
+          camera.position.set(0, 0, 500);
 
           // container object of whole world where things get added into
           scene = new THREE.Scene();
@@ -68,13 +74,16 @@
           scene.add(pointLight);
 
           // actual geometry that makes up the 3d object
-          // BoxGeometry( x side, y side, z side );
-          var geometry = new THREE.BoxGeometry(100, 100, 100);
+          // BoxGeometry( x side, y side, z side, x segmented faces, y segmented faces, z segmented faces, );
+          var geometry = new THREE.BoxGeometry(300, 300, 300, 4, 4, 4 );
 
           // draws solid color to the side of the geometry
-          var material = new THREE.MeshBasicMaterial({color: 0x00ff00}); // does not respond to light
+          // var material = new THREE.MeshBasicMaterial({color: 0x00ff00}); // does not respond to light
           // MeshLambertMaterial responds to light
-          // var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+          var material = new THREE.MeshLambertMaterial({
+            color: 0xF3FFE2,
+            wireframe: true
+          });
 
           mesh = new THREE.Mesh(geometry, material);
           // mesh.position.set(0, 0, 0) // default position, same as camera
@@ -83,17 +92,27 @@
           scene.add(mesh);
 
           controls = new THREE.OrbitControls(camera, renderer.domElement);
-          controls.enableDamping = true;
-          controls.addEventListener('change', render);
+          controls.target.copy(mesh.position);
+          // controls.enableDamping = true;
+          // controls.addEventListener('change', render);
 
-          var container = document.getElementById('container');
-          container.appendChild(renderer.domElement);
+          // var container = document.getElementById('container');
+          // container.appendChild(renderer.domElement);
+
+          // wireframe
+          var geo = new THREE.EdgesGeometry(mesh.geometry);
+          var mat = new THREE.LineBasicMaterial({
+            color: 0xffffff,
+            linewidth: 2
+          });
+          var wireframe = new THREE.LineSegments( geo, mat );
+          mesh.add(wireframe);
       }
 
       // animate the cube to see all sides
       // requestAnimationFrame(render);
       function render() {
-        console.log( 'render called!' );
+        // console.log( 'render called!' );
         // update position of the cube
         // mesh.rotation.x += 0.01;
         // mesh.rotation.y += 0.01;
@@ -103,9 +122,10 @@
       }
 
       function animate() {
-        console.log( 'animate called!' );
+        // console.log( 'animate called!' );
         requestAnimationFrame(animate);
-        controls.update();
+        // controls.update();
+        render();
       }
 
     </script>
