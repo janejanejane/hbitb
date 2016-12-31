@@ -19,7 +19,20 @@
   <body>
 
     <canvas id="app-canvas"></canvas>
-    <div id="container"></div>
+    <div id="container">
+      <form onsubmit="event.preventDefault(); onClick();">
+        <label>Length</label>
+        <input id="length" />
+
+        <label>Width</label>
+        <input id="width" />
+
+        <label>Height</label>
+        <input id="height" />
+
+        <button>Calculate</button>
+      </form>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
     <script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
@@ -126,6 +139,19 @@
         requestAnimationFrame(animate);
         // controls.update();
         render();
+      }
+
+      function onClick() {
+        console.log('clicked!');
+        var length = document.getElementById('length');
+        var width = document.getElementById('width');
+        var height = document.getElementById('height');
+
+        console.log( length.value, width.value, height.value );
+
+        mesh.scale.x = length.value;
+        mesh.scale.y = width.value;
+        mesh.scale.z = height.value;
       }
 
     </script>
