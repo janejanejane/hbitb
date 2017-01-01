@@ -37,6 +37,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
     <script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
     <script>
+      var boundingBox = null;
       var camera = null;
       var controls = null;
       var mesh = null;
@@ -86,26 +87,49 @@
           var pointLight = new THREE.PointLight(0xffffff, 0.5);
           scene.add(pointLight);
 
+          // container geometry
+          var containerGeometry = new THREE.BoxGeometry(600, 600, 600);
+
+          // container material
+          var containerMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0
+          });
+
+          // container mesh
+          var containerMesh = new THREE.Mesh(containerGeometry, containerMaterial);
+          containerMesh.position.set(0, 0, -1000);
+
+          // add container cube to scene
+          scene.add(containerMesh);
+
+
           // actual geometry that makes up the 3d object
           // BoxGeometry( x side, y side, z side, x segmented faces, y segmented faces, z segmented faces, );
-          var geometry = new THREE.BoxGeometry(300, 300, 300, 4, 4, 4 );
+          var geometry = new THREE.BoxGeometry(1, 1, 1);
 
           // draws solid color to the side of the geometry
           // var material = new THREE.MeshBasicMaterial({color: 0x00ff00}); // does not respond to light
           // MeshLambertMaterial responds to light
           var material = new THREE.MeshLambertMaterial({
-            color: 0xF3FFE2,
+            // color: 0xF3FFE2,
+            color: 0xffffff,
             wireframe: true
           });
 
           mesh = new THREE.Mesh(geometry, material);
           // mesh.position.set(0, 0, 0) // default position, same as camera
-          mesh.position.set(0, 0, -1000);
+          mesh.position.set(0, -300, 0);
 
-          scene.add(mesh);
+          containerMesh.add(mesh);
+
+          // // create a bounding box
+          boundingBox = new THREE.BoxHelper(containerMesh);
+          scene.add(boundingBox);
 
           controls = new THREE.OrbitControls(camera, renderer.domElement);
-          controls.target.copy(mesh.position);
+          controls.target.copy(containerMesh.position);
           // controls.enableDamping = true;
           // controls.addEventListener('change', render);
 
@@ -113,13 +137,13 @@
           // container.appendChild(renderer.domElement);
 
           // wireframe
-          var geo = new THREE.EdgesGeometry(mesh.geometry);
-          var mat = new THREE.LineBasicMaterial({
-            color: 0xffffff,
-            linewidth: 2
-          });
-          var wireframe = new THREE.LineSegments( geo, mat );
-          mesh.add(wireframe);
+          // var geo = new THREE.EdgesGeometry(containerMesh.geometry);
+          // var mat = new THREE.LineBasicMaterial({
+          //   color: 0xffffff,
+          //   linewidth: 2
+          // });
+          // var wireframe = new THREE.LineSegments( geo, mat );
+          // containerMesh.add(wireframe);
       }
 
       // animate the cube to see all sides
@@ -149,9 +173,11 @@
 
         console.log( length.value, width.value, height.value );
 
-        mesh.scale.x = length.value;
-        mesh.scale.y = width.value;
-        mesh.scale.z = height.value;
+        mesh.scale.x = width.value;
+        mesh.scale.y = height.value;
+        mesh.scale.z = length.value;
+
+        mesh.position.set(0, (height.value / 2) - 300, 0);
       }
 
     </script>
