@@ -11,6 +11,7 @@
     <!--[if gt IE 8]><!-->
         <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.1/build/grids-responsive-min.css">
     <!--<![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
     <style>
       body {
         margin: 0;
@@ -66,6 +67,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
     <script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script> -->
     <script>
 
       var boundingBox = null;
@@ -77,11 +79,17 @@
 
       var WIDTH = null;
       var HEIGHT = null;
+      // var FONT = null;
 
       $(document).ready(function() {
 
         WIDTH = $('#text-area').width();
         HEIGHT = window.innerHeight - $('#text-area').height();
+        // FONT = WebFont.load({
+        //   google: {
+        //     families: ['Droid Sans', 'Droid Serif']
+        //   }
+        // })
 
         console.log( WIDTH, HEIGHT );
         init();
@@ -114,6 +122,21 @@
 
             // container object of whole world where things get added into
             scene = new THREE.Scene();
+
+            var loader = new THREE.FontLoader();
+            loader.load('font.json', function(res){
+
+              // add text
+              var text = new THREE.TextGeometry('BOX', {
+                font: res,
+                size: 12,
+                height: 10
+              });
+
+              var textMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
+              var textMesh = new THREE.Mesh(text, textMaterial);
+              scene.add(textMesh);
+            });
 
             // default light of the scene that covers the entire space
             // AmbientLight( color, intensity );
