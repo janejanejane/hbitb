@@ -204,6 +204,15 @@
             // });
             // var wireframe = new THREE.LineSegments( geo, mat );
             // containerMesh.add(wireframe);
+
+            // floor
+            var floor = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+            var floorMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
+            var floorMesh = new THREE.Mesh(floor, floorMaterial);
+            // floorMesh.material.side = THREE.DoubleSide;
+            floorMesh.position.set(0, -300, -1000);
+            floorMesh.rotation.x = Math.PI / 2;
+            scene.add(floorMesh);
         }
 
         // animate the cube to see all sides
