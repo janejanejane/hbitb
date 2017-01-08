@@ -227,6 +227,10 @@
             // scene.add(floorMesh);
             group.add(floorMesh);
 
+            // grid
+            var gridHelper = new THREE.GridHelper(10, 10);
+            group.add(gridHelper);
+
             // axes
             var axes = new THREE.AxisHelper(100);
             // scene2.add(axes);
