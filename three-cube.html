@@ -240,9 +240,9 @@
               color: 0x0000ff
             });
             var lineGeometry = new THREE.Geometry();
-            lineGeometry.vertices.push(new THREE.Vector3(-10, 0, 0));
-            lineGeometry.vertices.push(new THREE.Vector3(0, 10, 0));
-            lineGeometry.vertices.push(new THREE.Vector3(10, 0, 0));
+            lineGeometry.vertices.push(new THREE.Vector3(0, -200, 0));
+            lineGeometry.vertices.push(new THREE.Vector3(0, 200, 0));
+            // lineGeometry.vertices.push(new THREE.Vector3(0, 200, 0));
             var line = new THREE.Line(lineGeometry, lineMaterial);
 
             group.add(line);
