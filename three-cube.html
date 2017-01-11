@@ -128,6 +128,8 @@
 
             var group = new THREE.Object3D();
 
+            scene.add(group);
+
             var loader = new THREE.FontLoader();
             loader.load('font.json', function(res){
 
@@ -140,6 +142,7 @@
 
               var textMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
               var textMesh = new THREE.Mesh(text, textMaterial);
+              textMesh.position.set(0, 0, -1000);
               // scene.add(textMesh);
               group.add(textMesh);
             });
@@ -229,10 +232,12 @@
 
             // grid
             var gridHelper = new THREE.GridHelper(10, 10);
+            gridHelper.position.set(0, 0, -1000);
             group.add(gridHelper);
 
             // axes
             var axes = new THREE.AxisHelper(100);
+            axes.position.set(0, 0, -1000);
             // scene2.add(axes);
             group.add(axes);
 
@@ -247,8 +252,6 @@
 
             group.add(line);
 
-
-            scene.add(group);
         }
 
         // animate the cube to see all sides
