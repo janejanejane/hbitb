@@ -61,11 +61,14 @@
 
       <div id="graphics-area" class="pure-u-1 pure-u-md-1-2">
         <canvas id="app-canvas"></canvas>
+        <div id="svg-container"></div>
       </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
     <script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="http://threejs.org/examples/js/renderers/SVGRenderer.js"></script>
+    <script src="http://threejs.org/examples/js/renderers/Projector.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script> -->
     <script>
@@ -252,6 +255,13 @@
 
             group.add(line);
 
+            var svgRenderer = new THREE.SVGRenderer();
+            svgRenderer.setClearColor(0xffffff);
+            svgRenderer.setSize(width/3,height/3);
+            svgRenderer.setQuality('high');
+            svgRenderer.render(scene, camera);
+
+            document.getElementById('svg-container').appendChild(svgRenderer.domElement);
         }
 
         // animate the cube to see all sides
