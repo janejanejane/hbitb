@@ -75,6 +75,7 @@
 
       var boundingBox = null;
       var camera = null;
+      var camera2 = null;
       var controls = null;
       var mesh = null;
       var renderer = null;
@@ -112,6 +113,7 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(WIDTH, HEIGHT);
             renderer.autoClear = false;
+
 
             // draw content to renderer by passing camera and scene
 
@@ -255,15 +257,22 @@
 
             group.add(line);
 
-            var svgRenderer = new THREE.SVGRenderer();
-            svgRenderer.setClearColor(0xffffff);
-            svgRenderer.setSize(width/3,height/3);
-            svgRenderer.setQuality('high');
-            svgRenderer.render(scene, camera);
+            // var svgRenderer = new THREE.SVGRenderer();
+            // svgRenderer.setClearColor(0xffffff);
+            // svgRenderer.setSize(width/3,height/3);
+            // svgRenderer.setQuality('high');
+            // svgRenderer.render(scene, camera);
+            //
+            // document.getElementById('svg-container').appendChild(svgRenderer.domElement);
 
-            document.getElementById('svg-container').appendChild(svgRenderer.domElement);
-
-            // TODO: Add multiple cameras
+            camera2 = new THREE.PerspectiveCamera(
+              35, // field of view
+              ( WIDTH / 2 ) / ( HEIGHT / 2 ), // aspect ratio, size of window
+              0.1, // near clipping occurs
+              3000 // far clipping occurs
+            );
+            // camera.position.set(0, 0, 0); // default position, same as mesh
+            camera2.position.set(0, 0, 500);
         }
 
         // animate the cube to see all sides
@@ -279,6 +288,8 @@
           // requestAnimationFrame(render);
           renderer.clearDepth();
           renderer.render(scene2, camera);
+
+          renderer.render(scene, camera2);
         }
 
         function animate() {
