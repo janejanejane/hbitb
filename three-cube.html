@@ -79,6 +79,7 @@
       var controls = null;
       var mesh = null;
       var renderer = null;
+      var renderer2 = null;
       var scene = null;
       var scene2 = null;
 
@@ -113,6 +114,19 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(WIDTH, HEIGHT);
             renderer.autoClear = false;
+
+
+            renderer2 = new THREE.WebGLRenderer({
+              canvas: document.getElementById('app-canvas'),
+              antialias: true
+            });
+            // renderer2 = new THREE.WebGLRenderer({
+            //   antialias: true
+            // });
+            renderer2.setClearColor(0xffffff);
+            renderer2.setPixelRatio(window.devicePixelRatio);
+            renderer2.setSize(WIDTH/2, HEIGHT/2);
+            renderer2.autoClear = false;
 
 
             // draw content to renderer by passing camera and scene
@@ -267,7 +281,7 @@
 
             camera2 = new THREE.PerspectiveCamera(
               35, // field of view
-              ( WIDTH / 2 ) / ( HEIGHT / 2 ), // aspect ratio, size of window
+              ( WIDTH ) / ( HEIGHT ), // aspect ratio, size of window
               0.1, // near clipping occurs
               3000 // far clipping occurs
             );
@@ -283,13 +297,16 @@
           // mesh.rotation.x += 0.01;
           // mesh.rotation.y += 0.01;
           // call everything
-          renderer.clear();
+          // renderer.clear();
           renderer.render(scene, camera);
           // requestAnimationFrame(render);
-          renderer.clearDepth();
-          renderer.render(scene2, camera);
+          // renderer.clearDepth();
+          // renderer.render(scene2, camera);
 
-          renderer.render(scene, camera2);
+          // multiple camera, scene: http://gamingjs.com/ice/#
+
+          // renderer2.clear();
+          renderer2.render(scene2, camera2);
         }
 
         function animate() {
