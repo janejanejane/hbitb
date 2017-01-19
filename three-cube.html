@@ -104,7 +104,7 @@
         function init() {
 
             renderer = new THREE.WebGLRenderer({
-              canvas: document.getElementById('app-canvas'),
+              // canvas: document.getElementById('app-canvas'),
               antialias: true
             });
             // renderer = new THREE.WebGLRenderer({
@@ -115,9 +115,10 @@
             renderer.setSize(WIDTH, HEIGHT);
             renderer.autoClear = false;
 
+            document.body.appendChild(renderer.domElement);
 
             renderer2 = new THREE.WebGLRenderer({
-              canvas: document.getElementById('app-canvas'),
+              // canvas: document.getElementById('app-canvas'),
               antialias: true
             });
             // renderer2 = new THREE.WebGLRenderer({
@@ -125,9 +126,10 @@
             // });
             renderer2.setClearColor(0xffffff);
             renderer2.setPixelRatio(window.devicePixelRatio);
-            renderer2.setSize(WIDTH/2, HEIGHT/2);
+            renderer2.setSize(WIDTH, HEIGHT);
             renderer2.autoClear = false;
 
+            document.body.appendChild(renderer2.domElement);
 
             // draw content to renderer by passing camera and scene
 
@@ -281,12 +283,12 @@
 
             camera2 = new THREE.PerspectiveCamera(
               35, // field of view
-              ( WIDTH ) / ( HEIGHT ), // aspect ratio, size of window
+              ( WIDTH / 2 ) / ( HEIGHT / 2 ), // aspect ratio, size of window
               0.1, // near clipping occurs
               3000 // far clipping occurs
             );
             // camera.position.set(0, 0, 0); // default position, same as mesh
-            camera2.position.set(0, 0, 500);
+            camera2.position.set(0, 0, 1000);
         }
 
         // animate the cube to see all sides
