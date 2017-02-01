@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import v4 from 'node-uuid';
 
 import Simple from './Simple';
@@ -122,5 +122,9 @@ class BoxApp extends Component {
     );
   }
 }
+
+BoxApp.propTypes = {
+  store: PropTypes.object,
+};
 
 export default BoxApp;
